@@ -3,11 +3,9 @@ import os
 import sys
 from time import time
 
-def get_names(json: str):
-    name_list = []
-    with open(json, 'r') as artifacts_file:
-        name, ext = os.path.splitext(json)
-        with open(name+'-only-names'+ext, 'w') as filenames_file:
+def get_names(input_file_name: str, output_file_name: str):
+    with open(input_file_name, 'r') as artifacts_file:
+        with open(output_file_name, 'w') as filenames_file:
             for line in artifacts_file.readlines():
                 filenames_file.write(json.loads(line).get("name")+'\n')
 
@@ -15,14 +13,20 @@ if len(sys.argv) > 2:
     print("Too many arguments")
     exit
 
-json = sys.argv[1]
+#TODO write --help page
 
-if os.path.exists(json):
+#for example: list-of-json.txt
+input_file_name = sys.argv[1]
+
+file_name, extension = os.path.splitext(json)
+output_file_name = name + '-only-names' + ext
+
+if os.path.exists(output_file_name):
     print("Output file already exists!")
     exit
 
 start_time = time()
-get_names(json)
+get_names(input_file_name, output_file_name)
 end_time = time()
 diff_time = end_time - start_time
 print("Script took ", diff_time, "seconds")
