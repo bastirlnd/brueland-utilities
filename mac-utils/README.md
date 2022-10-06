@@ -5,5 +5,6 @@ Using some calculations it will result in printing out a neat little bar to show
 
 Example Output:
 ```bash
+❯ python3 get_remaining_storage.py
 Remaining Storage: |██████████████████████████████████████████████████████████████--------------------------------------| 62.20% Full
 ```
