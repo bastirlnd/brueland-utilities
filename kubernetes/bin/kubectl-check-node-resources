@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+kubecontext_raw=$(kubectl config view | grep "current" || true)
+
+kubecontext="${kubecontext_raw//"current-context: "/}"
+
+echo "Using context: ${kubecontext}"
+
+node_names=$(kubectl --kubeconfig "${HOME}/.kube/generated/${kubecontext}" get node -o custom-columns='NODE_NAME:.metadata.name')
+
+node_names_raw=$(tail -n +2 <<< "${node_names}")
+
+printf "
+----------------------------
+Current Node Resource Usage:
+----------------------------\n"
+
+while IFS= read -r line; do
+    kubectl --kubeconfig "${HOME}/.kube/generated/${kubecontext}" -n github-apps top node "${line}" || true
+done <<< "${node_names_raw}"
