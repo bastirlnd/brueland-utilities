@@ -16,5 +16,5 @@ Current Node Resource Usage:
 ----------------------------\n"
 
 while IFS= read -r line; do
-    kubectl --kubeconfig "${HOME}/.kube/generated/${kubecontext}" -n github-apps top node "${line}" || true
+    kubectl --kubeconfig "${HOME}/.kube/generated/${kubecontext}" top node "${line}" || true
 done <<< "${node_names_raw}"
